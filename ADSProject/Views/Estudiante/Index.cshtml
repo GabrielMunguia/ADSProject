@@ -1,0 +1,60 @@
+﻿@model IEnumerable<ADSProject.Models.EstudianteViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idEstudiante)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombresEstudiante)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.apellidosEstudiante)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.codigoEstudiante)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.correoEstudiante)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.idEstudiante)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombresEstudiante)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.apellidosEstudiante)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.codigoEstudiante)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.correoEstudiante)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
