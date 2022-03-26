@@ -30,6 +30,7 @@ namespace ADSProject
             services.AddSingleton< IEstudianteRepository,EstudianteRepository >();
             services.AddSingleton<IMateriaRepository, MateriaRepository>();
             services.AddSingleton<IProfesorRepository, ProfesorRepository>();
+            services.AddSingleton<ICarreraRepository, CarreraRepository>();
 
         }
 
