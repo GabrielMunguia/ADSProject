@@ -28,6 +28,7 @@ namespace ADSProject
 
             //Inyeccion de dependencias
             services.AddSingleton< IEstudianteRepository,EstudianteRepository >();
+            services.AddSingleton<IMateriasRepository, MateriaRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

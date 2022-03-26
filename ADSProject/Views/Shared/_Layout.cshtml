@@ -21,8 +21,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Estudiante" asp-action="Index">Estudiante</a>
+                        <li class="dropdown">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown"
+                               role="button" id="dropDownMenuButton" aria-expanded="false" aria-haspopup="true">
+                                Mantenimientos<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Estudiante", "Index", "Estudiante")</li>
+                                <li>@Html.ActionLink("Materia", "Index", "Materia")</li>
+                            </ul>
+                            
                         </li>
                     </ul>
                 </div>

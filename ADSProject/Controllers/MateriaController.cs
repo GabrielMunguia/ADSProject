@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace ADSProject.Controllers
 {
-    public class EstudianteController : Controller
+    public class MateriaController : Controller
     {
 
-        private readonly IEstudianteRepository estudianteRepository;
+        private readonly IMateriasRepository materiaRepository;
 
 
-        public EstudianteController(IEstudianteRepository estudianteRepository)
+        public MateriaController(IMateriasRepository materiaRepository)
         {
-            this.estudianteRepository = estudianteRepository;
+            this.materiaRepository = materiaRepository;
         }
 
         [HttpGet]
@@ -26,7 +26,7 @@ namespace ADSProject.Controllers
 
             try
             {
-                var item = estudianteRepository.obtenerEstudiantes();
+                var item = materiaRepository.obtenerMaterias();
                 return View(item);
 
             }
@@ -39,16 +39,18 @@ namespace ADSProject.Controllers
 
 
         [HttpGet]
-        public IActionResult Form  (int? idEstudiante,Operaciones operaciones)   {
+        public IActionResult Form(int? idMateria, Operaciones operaciones)
+        {
             try
             {
-                var estudiante = new EstudianteViewModel();
-                if (idEstudiante.HasValue) {
-                    estudiante = estudianteRepository.obtenerEstudiantePorID(idEstudiante.Value);
+                var materia = new MateriaViewModel();
+                if (idMateria.HasValue)
+                {
+                    materia = materiaRepository.obtenerMateriaPorID(idMateria.Value);
                 }
                 //Indica el tipo de operacion que se esta realizando, se manda la data a la vista 
                 ViewData["Operaciones"] = operaciones;
-                return View(estudiante);
+                return View(materia);
             }
             catch (Exception)
             {
@@ -57,17 +59,17 @@ namespace ADSProject.Controllers
             }
         }
         [HttpPost]
-        public  IActionResult Form (EstudianteViewModel estudianteViewModel)
+        public IActionResult Form(MateriaViewModel materiaViewModel)
         {
             try
             {
-                if (estudianteViewModel.idEstudiante == 0)//En caso de insertar un nuevo estudiante
+                if (materiaViewModel.idMateria == 0)//En caso de insertar un nuevo estudiante
                 {
-                    estudianteRepository.agregarEstudiante(estudianteViewModel);
+                    materiaRepository.agregarMateria(materiaViewModel);
                 }
                 else//En caso de actualizar el estudiante
                 {
-                    estudianteRepository.actualizarEstudiante(estudianteViewModel.idEstudiante, estudianteViewModel);
+                    materiaRepository.actualizarMateria(materiaViewModel.idMateria, materiaViewModel);
                 }
 
                 return RedirectToAction("Index");
@@ -79,11 +81,11 @@ namespace ADSProject.Controllers
             }
         }
         [HttpGet]
-        public IActionResult Delete (int idEstudiante)
+        public IActionResult Delete(int idMateria)
         {
             try
             {
-                estudianteRepository.eliminarEstudiante(idEstudiante);
+                materiaRepository.eliminarMateria(idMateria);
             }
             catch (Exception)
             {

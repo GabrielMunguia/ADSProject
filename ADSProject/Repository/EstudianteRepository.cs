@@ -13,7 +13,7 @@ namespace ADSProject.Repository
         public EstudianteRepository()
         {
             lstEstudiantes = new List<EstudianteViewModel>
-            { 
+            {
               new EstudianteViewModel
               {
                   idEstudiante=1,nombresEstudiante="Gabriel",apellidosEstudiante="Munguia",
@@ -29,18 +29,19 @@ namespace ADSProject.Repository
                 if (this.lstEstudiantes.Count > 0)
                 {
                     estudianteViewModel.idEstudiante = lstEstudiantes.Last().idEstudiante + 1;
-                
+
                 }
                 else
                 {
-                    estudianteViewModel.idEstudiante =1;
+                    estudianteViewModel.idEstudiante = 1;
                 }
 
                 lstEstudiantes.Add(estudianteViewModel);
 
                 return estudianteViewModel.idEstudiante;
 
-            }catch(Exception err)
+            }
+            catch (Exception err)
             {
 
                 return -1;
@@ -54,7 +55,7 @@ namespace ADSProject.Repository
             try
             {
 
-                lstEstudiantes[lstEstudiantes.FindIndex(x=>x.idEstudiante==idEstudiante)]=estudianteViewModel;
+                lstEstudiantes[lstEstudiantes.FindIndex(x => x.idEstudiante == idEstudiante)] = estudianteViewModel;
                 return estudianteViewModel.idEstudiante;
             }
             catch (Exception)
@@ -71,7 +72,7 @@ namespace ADSProject.Repository
             {
                 this.lstEstudiantes.RemoveAt(lstEstudiantes.FindIndex(x => x.idEstudiante == idEstudiante));
                 return true;
-            
+
             }
             catch (Exception)
             {
