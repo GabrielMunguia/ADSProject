@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using ADSProject.Models;
 namespace ADSProject.Repository
 {
-    public interface IMateriasRepository
+    public interface IMateriaRepository
     {
         List<MateriaViewModel> obtenerMaterias();
 

@@ -9,15 +9,14 @@ using System.Threading.Tasks;
 
 namespace ADSProject.Controllers
 {
-    public class MateriaController : Controller
+    public class ProfesorController : Controller
     {
+        private readonly IProfesorRepository profesorRepository;
 
-        private readonly IMateriaRepository materiaRepository;
 
-
-        public MateriaController(IMateriaRepository materiaRepository)
+        public ProfesorController(IProfesorRepository profesorRepository)
         {
-            this.materiaRepository = materiaRepository;
+            this.profesorRepository = profesorRepository;
         }
 
         [HttpGet]
@@ -26,7 +25,7 @@ namespace ADSProject.Controllers
 
             try
             {
-                var item = materiaRepository.obtenerMaterias();
+                var item = profesorRepository.obtenerProfesores();
                 return View(item);
 
             }
@@ -39,14 +38,14 @@ namespace ADSProject.Controllers
 
 
         [HttpGet]
-        public IActionResult Form(int? idMateria, Operaciones operaciones)
+        public IActionResult Form(int? idProfesor, Operaciones operaciones)
         {
             try
             {
-                var materia = new MateriaViewModel();
-                if (idMateria.HasValue)
+                var materia = new ProfesorViewModel();
+                if (idProfesor.HasValue)
                 {
-                    materia = materiaRepository.obtenerMateriaPorID(idMateria.Value);
+                    materia = profesorRepository.obtenerProfesorPorId(idProfesor.Value);
                 }
                 //Indica el tipo de operacion que se esta realizando, se manda la data a la vista 
                 ViewData["Operaciones"] = operaciones;
@@ -59,17 +58,17 @@ namespace ADSProject.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Form(MateriaViewModel materiaViewModel)
+        public IActionResult Form(ProfesorViewModel profesorViewModel)
         {
             try
             {
-                if (materiaViewModel.idMateria == 0)//En caso de insertar un nuevo estudiante
+                if (profesorViewModel.idProfesor == 0)//En caso de insertar un nuevo estudiante
                 {
-                    materiaRepository.agregarMateria(materiaViewModel);
+                    profesorRepository.agregarProfesor(profesorViewModel);
                 }
                 else//En caso de actualizar el estudiante
                 {
-                    materiaRepository.actualizarMateria(materiaViewModel.idMateria, materiaViewModel);
+                    profesorRepository.actualizarProfesor(profesorViewModel.idProfesor, profesorViewModel);
                 }
 
                 return RedirectToAction("Index");
@@ -81,11 +80,11 @@ namespace ADSProject.Controllers
             }
         }
         [HttpGet]
-        public IActionResult Delete(int idMateria)
+        public IActionResult Delete(int idProfesor)
         {
             try
             {
-                materiaRepository.eliminarMateria(idMateria);
+                profesorRepository.eliminarProfesor(idProfesor);
             }
             catch (Exception)
             {
@@ -100,4 +99,5 @@ namespace ADSProject.Controllers
 
 
     }
-}
+  
+};

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ADSProject.Repository
 {
-    public class MateriaRepository : IMateriasRepository
+    public class MateriaRepository : IMateriaRepository
     {
         private readonly List<MateriaViewModel> lstMaterias;
 
