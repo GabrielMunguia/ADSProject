@@ -12,7 +12,7 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Form">
-              <input type="hidden" id="operacion" value="@ViewData["Operaciones"]" />
+            <input type="hidden" id="operacion" value="@ViewData["Operaciones"]" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="idMateria" class="control-label"></label>
@@ -24,8 +24,9 @@
                 <input asp-for="nombreMateria" class="form-control" />
                 <span asp-validation-for="nombreMateria" class="text-danger"></span>
             </div>
-        
+
             <div class="form-group">
+                <input class="invisible" id="_redirectURL" value="#" />
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -33,18 +34,27 @@
 </div>
 
 <div>
-   <a class="btn btn-info" asp-action="Index">Regresar</a>
+    <a class="btn btn-info" asp-action="Index">Regresar</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
- <script>
-        $(document).ready(function () {
+    <script>
+        var getUrl = window.location;
+        var baseUrl = getUrl.protocol + "//" + getUrl.host + "/Materia";
+        const aRedirect = document.getElementById('_redirectURL');
 
+        $(document).ready(function () {
+            aRedirect.value = baseUrl;
+
+            console.log()
             if ($("#operacion").val() == "leer") {
                 $("form").find("input,select").attr("disabled", true);
             }
         });
+        $("form").addClass("form-ajax");
+        // Activar AJAX
+        initAjaxForm();
     </script>
 
 }

@@ -30,6 +30,7 @@
                 <span asp-validation-for="codigoCarrera" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <input class="invisible" id="_redirectURL" value="#" />
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -44,12 +45,21 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
-        $(document).ready(function () {
+        var getUrl = window.location;
+        var baseUrl = getUrl.protocol + "//" + getUrl.host + "/Carrera";
+        const aRedirect = document.getElementById('_redirectURL');
 
+        $(document).ready(function () {
+            aRedirect.value = baseUrl;
+
+            console.log()
             if ($("#operacion").val() == "leer") {
                 $("form").find("input,select").attr("disabled", true);
             }
         });
+        $("form").addClass("form-ajax");
+        // Activar AJAX
+        initAjaxForm();
     </script>
 
 

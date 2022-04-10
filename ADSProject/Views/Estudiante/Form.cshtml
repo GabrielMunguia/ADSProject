@@ -47,19 +47,29 @@
 </div>
 
 <div>
-      <a class="btn btn-info" asp-action="Index">Back to List</a>
+    <input class="invisible" id="_redirectURL" value="#" />
+      <a id class="btn btn-info" asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
+        var getUrl = window.location;
+        var baseUrl = getUrl.protocol + "//" + getUrl.host + "/Estudiante";
+        const aRedirect = document.getElementById('_redirectURL');
+ 
         $(document).ready(function () {
-
+            aRedirect.value = baseUrl;
+          
+            console.log()
             if ($("#operacion").val() == "leer") {
                 $("form").find("input,select").attr("disabled", true);
             }
         });
+        $("form").addClass("form-ajax");
+        // Activar AJAX
+        initAjaxForm();
     </script>
 
 }
