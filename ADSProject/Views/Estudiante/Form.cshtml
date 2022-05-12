@@ -1,23 +1,20 @@
 ﻿@model ADSProject.Models.EstudianteViewModel
 
-@{
-    ViewData["Title"] = "Form";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewData["Title"] = "Form";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <h1>Form</h1>
 
-<h4>EstudianteViewModel</h4>
+<h4>Estudiantes</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
+        <input type="hidden" id="operacion" value="@ViewData["Operaciones"]" />
+        <input type="hidden" id="_redirectURL" value="@Url.Action("Index" , "Estudiante")" />
         <form asp-action="Form">
-            <input type="hidden" id="operacion" value="@ViewData["Operaciones"]" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="idEstudiante" class="control-label"></label>
-                <input asp-for="idEstudiante" class="form-control" />
-                <span asp-validation-for="idEstudiante" class="text-danger"></span>
+                <input asp-for="idEstudiante"  class="invisible"  />
             </div>
             <div class="form-group">
                 <label asp-for="nombresEstudiante" class="control-label"></label>
@@ -39,6 +36,7 @@
                 <input asp-for="correoEstudiante" class="form-control" />
                 <span asp-validation-for="correoEstudiante" class="text-danger"></span>
             </div>
+            <input type="checkbox" asp-for="estado" value="true" type="hidden" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -47,29 +45,23 @@
 </div>
 
 <div>
-    <input class="invisible" id="_redirectURL" value="#" />
-      <a id class="btn btn-info" asp-action="Index">Back to List</a>
+    <a asp-action="Index">regresar</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
     <script>
-        var getUrl = window.location;
-        var baseUrl = getUrl.protocol + "//" + getUrl.host + "/Estudiante";
-        const aRedirect = document.getElementById('_redirectURL');
- 
         $(document).ready(function () {
-            aRedirect.value = baseUrl;
-          
-            console.log()
+            // Cuando la operacion sobre el formulario es de lectura.
             if ($("#operacion").val() == "leer") {
                 $("form").find("input,select").attr("disabled", true);
             }
         });
+        //Agregando ajax
         $("form").addClass("form-ajax");
-        // Activar AJAX
+        //activando ajax
         initAjaxForm();
     </script>
-
 }
+
+

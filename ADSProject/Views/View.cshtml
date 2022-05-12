@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ADSProject.Models.GrupoViewModel>
+
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>View</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idGrupo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idCarrera)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idMateria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idProfesor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ciclo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.estado)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.idGrupo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idCarrera)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idMateria)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idProfesor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ciclo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.estado)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

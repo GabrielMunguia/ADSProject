@@ -1,43 +1,49 @@
 ﻿using ADSProject.Models;
+using ADSProyect.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ADSProject.Repository
 {
     public class EstudianteRepository : IEstudianteRepository
     {
-        private readonly List<EstudianteViewModel> lstEstudiantes;
-
-        public EstudianteRepository()
+        //private readonly List<EstudianteViewModel> lstEstudiantes;
+        private readonly ApplicationDbContext applicationDbContext;
+        public EstudianteRepository(ApplicationDbContext applicationDbContext)
         {
-            lstEstudiantes = new List<EstudianteViewModel>
+            /*lstEstudiantes = new List<EstudianteViewModel>
             {
               new EstudianteViewModel
               {
                   idEstudiante=1,nombresEstudiante="Gabriel",apellidosEstudiante="Munguia",
                   codigoEstudiante="MR19I04001",correoEstudiante="mr19i04001@usonsonate.edu.sv"
               }
-            };
+            };*/
+            this.applicationDbContext = applicationDbContext;
         }
 
         public int agregarEstudiante(EstudianteViewModel estudianteViewModel)
         {
             try
             {
-                if (this.lstEstudiantes.Count > 0)
-                {
-                    estudianteViewModel.idEstudiante = lstEstudiantes.Last().idEstudiante + 1;
+                /*
+                  if (this.lstEstudiantes.Count > 0)
+                 {
+                     estudianteViewModel.idEstudiante = lstEstudiantes.Last().idEstudiante + 1;
 
-                }
-                else
-                {
-                    estudianteViewModel.idEstudiante = 1;
-                }
+                 }
+                 else
+                 {
+                     estudianteViewModel.idEstudiante = 1;
+                 }
 
-                lstEstudiantes.Add(estudianteViewModel);
+                 lstEstudiantes.Add(estudianteViewModel);
 
+                 return estudianteViewModel.idEstudiante;
+                 */
+                applicationDbContext.Estudiantes.Add(estudianteViewModel);
+                applicationDbContext.SaveChanges();
                 return estudianteViewModel.idEstudiante;
 
             }
@@ -55,8 +61,15 @@ namespace ADSProject.Repository
             try
             {
 
-                lstEstudiantes[lstEstudiantes.FindIndex(x => x.idEstudiante == idEstudiante)] = estudianteViewModel;
+
+                //  lstEstudiantes[lstEstudiantes.FindIndex(x => x.idEstudiante == idEstudiante)] = estudianteViewModel;
+                var item = applicationDbContext.Estudiantes.SingleOrDefault(x => x.idEstudiante == estudianteViewModel.idEstudiante);
+           
+                applicationDbContext.Entry(item).CurrentValues.SetValues(estudianteViewModel);
+                applicationDbContext.SaveChanges();
+
                 return estudianteViewModel.idEstudiante;
+                 
             }
             catch (Exception)
             {
@@ -70,7 +83,19 @@ namespace ADSProject.Repository
         {
             try
             {
-                this.lstEstudiantes.RemoveAt(lstEstudiantes.FindIndex(x => x.idEstudiante == idEstudiante));
+                // this.lstEstudiantes.RemoveAt(lstEstudiantes.FindIndex(x => x.idEstudiante == idEstudiante));
+                 var item = applicationDbContext.Estudiantes.SingleOrDefault(x => x.idEstudiante == idEstudiante);
+                //   applicationDbContext.Remove(item);
+                //  applicationDbContext.SaveChanges();
+
+                item.estado = false;
+
+                applicationDbContext.Attach(item);
+
+                applicationDbContext.Entry(item).Property(x => x.estado).IsModified = true;
+
+                applicationDbContext.SaveChanges();
+
                 return true;
 
             }
@@ -86,7 +111,9 @@ namespace ADSProject.Repository
             try
             {
 
-                var item = lstEstudiantes.Find(x => x.idEstudiante == idEstudiante);
+                //var item = lstEstudiantes.Find(x => x.idEstudiante == idEstudiante);
+                var item = applicationDbContext.Estudiantes.SingleOrDefault(x=>x.idEstudiante== idEstudiante);
+
                 return item;
 
             }
@@ -101,7 +128,11 @@ namespace ADSProject.Repository
         {
             try
             {
-                return this.lstEstudiantes;
+                //Obtener todos los estudiantes sin filtros
+               // return applicationDbContext.Estudiantes.ToList();
+
+                //obtener todos los estudiantes que tengan el estado en 1 
+                return applicationDbContext.Estudiantes.Where(x => x.estado == true).ToList();
             }
             catch (Exception)
             {

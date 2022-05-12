@@ -1,19 +1,19 @@
-﻿@model IEnumerable<ADSProject.Models.EstudianteViewModel>
+﻿@model IEnumerable<ADSProject.Models.GrupoViewModel>
 @using ADSProject.Utils
 
 @{ ViewData["Title"] = "Index";
-                Layout = "~/Views/Shared/_Layout.cshtml"; }
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 
 <div class="container">
     <div class="col-sm-12">
         <div class="row">
             <div class="col-sm-6">
-                <h3>Estudiantes</h3>
+                <h3>Grupos</h3>
             </div>
             <div class="col-sm-6">
                 <a class="btn btn-success d-block" asp-action="Form"
-                   asp-route-operaciones="@Operaciones.agregar">Agregar Estudiante</a>
+                   asp-route-operaciones="@Operaciones.agregar">Agregar Grupo</a>
             </div>
         </div>
     </div>
@@ -24,19 +24,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.idEstudiante)
+                @Html.DisplayNameFor(model => model.idGrupo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.nombresEstudiante)
+                @Html.DisplayNameFor(model => model.idCarrera)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.apellidosEstudiante)
+                @Html.DisplayNameFor(model => model.idMateria)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.codigoEstudiante)
+                @Html.DisplayNameFor(model => model.idProfesor)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.correoEstudiante)
+                @Html.DisplayNameFor(model => model.ciclo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.year)
             </th>
             <th>Acciones</th>
         </tr>
@@ -46,39 +49,42 @@
         {
 <tr>
     <td>
-        @Html.DisplayFor(modelItem => item.idEstudiante)
+        @Html.DisplayFor(modelItem => item.idGrupo)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.nombresEstudiante)
+        @Html.DisplayFor(modelItem => item.idCarrera)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.apellidosEstudiante)
+        @Html.DisplayFor(modelItem => item.idMateria)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.codigoEstudiante)
+        @Html.DisplayFor(modelItem => item.idProfesor)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.correoEstudiante)
+        @Html.DisplayFor(modelItem => item.ciclo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.year)
     </td>
     <td>
         <a class="btn btn-primary"
-           asp-route-idEstudiante="@item.idEstudiante"
+           asp-route-idGrupo="@item.idGrupo"
            asp-action="Form"
            asp-route-operaciones="@Operaciones.modificar">Modificar</a>
         <a class="btn btn-warning"
-           asp-route-idEstudiante="@item.idEstudiante"
+           asp-route-idGrupo="@item.idGrupo"
            asp-action="Form"
            asp-route-operaciones="@Operaciones.leer">Leer</a>
         <a class="btn btn-danger eliminar"
-           asp-route-idEstudiante="@item.idEstudiante"
+           asp-route-idGrupo="@item.idGrupo"
            asp-action="Delete">Eliminar</a>
     </td>
-</tr>}
+</tr>
+}
     </tbody>
 </table> }
-            else
-            {
+else
+{
 <h3 class="text-center">Lista vacia.</h3>}
     </div>
 </div>
-
