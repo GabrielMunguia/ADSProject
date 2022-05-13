@@ -14,7 +14,7 @@
         <form asp-action="Form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <input asp-for="idEstudiante"  class="invisible"  />
+                <input type="checkbox" asp-for="estado" value="true" type="hidden" />
             </div>
             <div class="form-group">
                 <label asp-for="nombresEstudiante" class="control-label"></label>

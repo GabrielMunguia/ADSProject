@@ -1,4 +1,5 @@
 ﻿using ADSProject.Models;
+using ADSProyect.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,31 +10,21 @@ namespace ADSProject.Repository
 
     public class GrupoRepository : IGrupoRepository
     {
-        private readonly List<GrupoViewModel> lstGrupos;
+        private readonly ApplicationDbContext applicationDbContext;
 
-        public GrupoRepository()
+        public GrupoRepository(ApplicationDbContext applicationDbContext)
         {
-            lstGrupos = new List<GrupoViewModel>
-            {
-                new GrupoViewModel{ idGrupo = 1, idCarrera = 1, idMateria = 1,
-                    idProfesor = 3, ciclo = "01/22", year = 2022}
-            };
+            this.applicationDbContext = applicationDbContext;
         }
 
         public int agregarGrupo(GrupoViewModel grupoViewModel)
         {
             try
             {
-                if (lstGrupos.Count > 0)
-                {
-                    grupoViewModel.idGrupo = lstGrupos.Last().idGrupo + 1;
-                }
-                else
-                {
-                    grupoViewModel.idGrupo = 1;
-                }
-                lstGrupos.Add(grupoViewModel);
-                return grupoViewModel.idGrupo;
+
+                applicationDbContext.Grupos.Add(grupoViewModel);
+                applicationDbContext.SaveChanges();
+                return grupoViewModel.idCarrera;
             }
             catch (Exception)
             {
@@ -46,8 +37,12 @@ namespace ADSProject.Repository
         {
             try
             {
-                lstGrupos[lstGrupos.FindIndex(x => x.idGrupo == idGrupo)] = grupoViewModel;
-                return grupoViewModel.idGrupo;
+                var item = applicationDbContext.Grupos.SingleOrDefault(x => x.idGrupo == grupoViewModel.idGrupo);
+
+                applicationDbContext.Entry(item).CurrentValues.SetValues(grupoViewModel);
+                applicationDbContext.SaveChanges();
+
+                return grupoViewModel.idCarrera;
             }
             catch (Exception)
             {
@@ -60,7 +55,17 @@ namespace ADSProject.Repository
         {
             try
             {
-                lstGrupos.RemoveAt(lstGrupos.FindIndex(x => x.idGrupo == idGrupo));
+                var item = applicationDbContext.Grupos.SingleOrDefault(x => x.idGrupo == idGrupo);
+
+
+                item.estado = false;
+
+                applicationDbContext.Attach(item);
+
+                applicationDbContext.Entry(item).Property(x => x.estado).IsModified = true;
+
+                applicationDbContext.SaveChanges();
+
                 return true;
             }
             catch (Exception)
@@ -74,7 +79,8 @@ namespace ADSProject.Repository
         {
             try
             {
-                var item = lstGrupos.Find(x => x.idGrupo == idGrupo);
+                var item = applicationDbContext.Grupos.SingleOrDefault(x => x.idGrupo == idGrupo);
+
                 return item;
             }
             catch (Exception)
@@ -88,7 +94,7 @@ namespace ADSProject.Repository
         {
             try
             {
-                return lstGrupos;
+                return applicationDbContext.Grupos.Where(x => x.estado == true).ToList();
             }
             catch (Exception)
             {

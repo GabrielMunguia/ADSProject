@@ -13,6 +13,7 @@
         <input type="hidden" id="_redirectURL" value="@Url.Action("Index", "Grupo")" />
         <form asp-action="Form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="text" asp-for="estado" value="true" class="invisible" />
             <div class="form-group">
                 <input asp-for="idGrupo" class="form-control" type="hidden" />
             </div>
