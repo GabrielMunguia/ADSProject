@@ -1,14 +1,14 @@
-﻿using System;
+﻿using ADSProject.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ADSProject.Models;
+
 namespace ADSProject.Repository
 {
     public interface IProfesorRepository
     {
-
-        List<ProfesorViewModel> obtenerProfesores();
+        List<ProfesorViewModel> obtenerProfesor();
 
         int agregarProfesor(ProfesorViewModel profesorViewModel);
 
@@ -16,6 +16,6 @@ namespace ADSProject.Repository
 
         bool eliminarProfesor(int idProfesor);
 
-        ProfesorViewModel obtenerProfesorPorId(int idProfesor);
+        ProfesorViewModel obtenerProfesorPorID(int idProfesor);
     }
 }

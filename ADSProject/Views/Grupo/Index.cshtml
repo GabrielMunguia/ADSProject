@@ -1,9 +1,10 @@
 ﻿@model IEnumerable<ADSProject.Models.GrupoViewModel>
 @using ADSProject.Utils
 
-@{ ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
-
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <div class="container">
     <div class="col-sm-12">
@@ -20,71 +21,80 @@
     <div class="col-sm-12">
         @if (Model.Count() > 0)
         {
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.idGrupo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.idCarrera)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.idMateria)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.idProfesor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ciclo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.year)
-            </th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.idGrupo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.idCarrera)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.idMateria)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.idProfesor)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ciclo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.anio)
+                        </th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.idGrupo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Carreras.NombreCarrera)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Materias.nombreMateria)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Profesores.nombreProfesor)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ciclo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.anio)
+                            </td>
+                            <td>
+                                <a class="btn btn-primary"
+                                   asp-route-iGrupo="@item.idGrupo"
+                                   asp-action="Form"
+                                   asp-route-operaciones="@Operaciones.modificar">Modificar</a>
+                                <a class="btn btn-warning"
+                                   asp-route-idGrupo="@item.idGrupo"
+                                   asp-action="Form"
+                                   asp-route-operaciones="@Operaciones.leer">Leer</a>
+                                <a class="btn btn-danger eliminar"
+                                   asp-route-idGrupo="@item.idGrupo"
+                                   asp-action="Delete">Eliminar</a>
+                                <a class="btn btn-secondary"
+                                   asp-route-idGrupo="@item.idGrupo"
+                                   asp-action="Form" asp-controller="AsignacionGrupo">Asignar grupo</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
         {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.idGrupo)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.idCarrera)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.idMateria)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.idProfesor)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.ciclo)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.year)
-    </td>
-    <td>
-        <a class="btn btn-primary"
-           asp-route-idGrupo="@item.idGrupo"
-           asp-action="Form"
-           asp-route-operaciones="@Operaciones.modificar">Modificar</a>
-        <a class="btn btn-warning"
-           asp-route-idGrupo="@item.idGrupo"
-           asp-action="Form"
-           asp-route-operaciones="@Operaciones.leer">Leer</a>
-        <a class="btn btn-danger eliminar"
-           asp-route-idGrupo="@item.idGrupo"
-           asp-action="Delete">Eliminar</a>
-    </td>
-</tr>
-}
-    </tbody>
-</table> }
-else
-{
-<h3 class="text-center">Lista vacia.</h3>}
+            <h3 class="text-center">Lista vacia.</h3>
+        }
+
     </div>
+
 </div>
+
+

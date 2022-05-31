@@ -1,6 +1,7 @@
-using ADSProject.Models;
+﻿using ADSProject.Models;
 using ADSProject.Repository;
 using ADSProject.Utils;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,7 @@ namespace ADSProject.Controllers
 {
     public class CarreraController : Controller
     {
-
         private readonly ICarreraRepository carreraRepository;
-
 
         public CarreraController(ICarreraRepository carreraRepository)
         {
@@ -23,12 +22,10 @@ namespace ADSProject.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-
             try
             {
-                var item = carreraRepository.obtenerCarreras();
+                var item = carreraRepository.obtenerCarrera();
                 return View(item);
-
             }
             catch (Exception)
             {
@@ -36,17 +33,18 @@ namespace ADSProject.Controllers
                 throw;
             }
         }
-
-
         [HttpGet]
-        public IActionResult Form  (int? idCarrera,Operaciones operaciones)   {
+        public IActionResult Form(int? idCarrera, Operaciones operaciones)
+        {
             try
             {
-                var carrera = new CarrerasViewModel();
-                if (idCarrera.HasValue) {
+                var carrera = new CarreraViewModel();
+                if (idCarrera.HasValue)
+                {
                     carrera = carreraRepository.obtenerCarreraPorID(idCarrera.Value);
+
                 }
-                //Indica el tipo de operacion que se esta realizando, se manda la data a la vista 
+                // Indica el tipo de operacion que es esta realizando
                 ViewData["Operaciones"] = operaciones;
                 return View(carrera);
             }
@@ -57,20 +55,39 @@ namespace ADSProject.Controllers
             }
         }
         [HttpPost]
-        public  IActionResult Form (CarrerasViewModel carreraViewModel)
+        [AutoValidateAntiforgeryToken]
+        public IActionResult Form(CarreraViewModel carreraViewModel)
         {
             try
             {
-                if (carreraViewModel.idCarrera == 0)//En caso de insertar un nuevo carrera
+                if (ModelState.IsValid)
                 {
-                    carreraRepository.agregarCarrera(carreraViewModel);
-                }
-                else//En caso de actualizar el carrera
-                {
-                    carreraRepository.actualizarCarrera(carreraViewModel.idCarrera, carreraViewModel);
-                }
 
-                return RedirectToAction("Index");
+                    int id = 0;
+                    if (carreraViewModel.idCarrera == 0) // En caso de insertar
+                    {
+                        id = carreraRepository.agregarCarrera(carreraViewModel);
+                    }
+                    else // En caso de actualizar
+                    {
+                       id = carreraRepository.actualizarCarrera(carreraViewModel.idCarrera, carreraViewModel);
+                    }
+
+                    if (id > 0)
+                    {
+                        return StatusCode(StatusCodes.Status200OK);
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status202Accepted);
+                    }
+
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest);
+                }
+                //return RedirectToAction("Index");
             }
             catch (Exception)
             {
@@ -79,7 +96,7 @@ namespace ADSProject.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Delete (int idCarrera)
+        public IActionResult Delete(int idCarrera)
         {
             try
             {
@@ -90,12 +107,7 @@ namespace ADSProject.Controllers
 
                 throw;
             }
-
             return RedirectToAction("Index");
         }
-
-
-
-
     }
 }

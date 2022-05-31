@@ -1,13 +1,16 @@
-﻿using System;
+﻿using ADSProject.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ADSProject.Models;
+
 namespace ADSProject.Repository
 {
     public interface IMateriaRepository
     {
-        List<MateriaViewModel> obtenerMaterias();
+        List<MateriaViewModel> obtenerMateria();
+
+        List<MateriaViewModel> obtenerMateria(String[] includes);
 
         int agregarMateria(MateriaViewModel materiaViewModel);
 
@@ -15,6 +18,6 @@ namespace ADSProject.Repository
 
         bool eliminarMateria(int idMateria);
 
-        MateriaViewModel obtenerMateriaPorID(int idMateria);
+        MateriaViewModel ObtenerMateriaPorID(int idMateria);
     }
 }

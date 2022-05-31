@@ -1,20 +1,21 @@
-﻿using System;
+﻿using ADSProject.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ADSProject.Models;
+
 namespace ADSProject.Repository
 {
     public interface ICarreraRepository
     {
-        List<CarrerasViewModel> obtenerCarreras();
+        List<CarreraViewModel> obtenerCarrera();
 
-        int agregarCarrera(CarrerasViewModel carreraViewModel);
+        int agregarCarrera(CarreraViewModel carreraViewModel);
 
-        int actualizarCarrera(int idCarrera, CarrerasViewModel carreraViewModel);
+        int actualizarCarrera(int idCarrera, CarreraViewModel carreraViewModel);
 
         bool eliminarCarrera(int idCarrera);
 
-        CarrerasViewModel obtenerCarreraPorID(int idCarrera);
+        CarreraViewModel obtenerCarreraPorID(int idCarrera);
     }
 }

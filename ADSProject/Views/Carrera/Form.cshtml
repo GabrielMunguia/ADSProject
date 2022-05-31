@@ -1,4 +1,4 @@
-﻿@model ADSProject.Models.CarrerasViewModel
+﻿@model ADSProject.Models.CarreraViewModel
 
 @{
     ViewData["Title"] = "Form";
@@ -7,31 +7,31 @@
 
 <h1>Form</h1>
 
-<h4>CarrerasViewModel</h4>
+<h4>CarreraViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
+        <input type="hidden" id="operacion" value="@ViewData["Operaciones"]" />
+        <input type="hidden" id="_redirectURL" value="@Url.Action("Index", "Carrera")" />
         <form asp-action="Form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="text" asp-for="estado" value="true" class="invisible" />
             <div class="form-group">
-                <label asp-for="idCarrera" class="control-label"></label>
-                <input type="hidden" id="operacion" value="@ViewData["Operaciones"]" />
-                <input asp-for="idCarrera" class="form-control" />
-                <span asp-validation-for="idCarrera" class="text-danger"></span>
+
+                <input asp-for="idCarrera" class="form-control" type="hidden" />
+
             </div>
             <div class="form-group">
-                <label asp-for="nombreCarrera" class="control-label"></label>
-                <input asp-for="nombreCarrera" class="form-control" />
-                <span asp-validation-for="nombreCarrera" class="text-danger"></span>
+                <label asp-for="CodigoCarrera" class="control-label"></label>
+                <input asp-for="CodigoCarrera" class="form-control" />
+                <span asp-validation-for="CodigoCarrera" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="codigoCarrera" class="control-label"></label>
-                <input asp-for="codigoCarrera" class="form-control" />
-                <span asp-validation-for="codigoCarrera" class="text-danger"></span>
+                <label asp-for="NombreCarrera" class="control-label"></label>
+                <input asp-for="NombreCarrera" class="form-control" />
+                <span asp-validation-for="NombreCarrera" class="text-danger"></span>
             </div>
+            <input type="checkbox" asp-for="estado" value="true" type="hidden" />
             <div class="form-group">
-                <input class="invisible" id="_redirectURL" value="#" />
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -39,30 +39,24 @@
 </div>
 
 <div>
-    <a class="btn btn-info" asp-action="Index">Regresar</a>
+    <a asp-action="Index">Regresar</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
-        var getUrl = window.location;
-        var baseUrl = getUrl.protocol + "//" + getUrl.host + "/Carrera";
-        const aRedirect = document.getElementById('_redirectURL');
-
-        $(document).ready(function () {
-            aRedirect.value = baseUrl;
-
-            console.log()
+    $(document).ready(function () {
+            // Cuando la operacion sobre el formulario es de lectura.
             if ($("#operacion").val() == "leer") {
                 $("form").find("input,select").attr("disabled", true);
             }
-        });
+    });
+        // agregando ajax
         $("form").addClass("form-ajax");
-        // Activar AJAX
+        // activando ajax
         initAjaxForm();
+
     </script>
-
-
 
 }

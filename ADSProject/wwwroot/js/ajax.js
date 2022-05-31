@@ -29,7 +29,7 @@ $(document).ready(function () {
             }
         });
     });
-});
+}); 
 
 function initAjaxForm() {
     $(".form-ajax").submit(function (event) {

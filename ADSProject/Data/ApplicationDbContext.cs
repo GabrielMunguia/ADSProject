@@ -1,12 +1,11 @@
 ﻿using ADSProject.Models;
-
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ADSProyect.Data
+namespace ADSProject.Data
 {
     public class ApplicationDbContext : DbContext
     {
@@ -17,13 +16,15 @@ namespace ADSProyect.Data
 
         public DbSet<EstudianteViewModel> Estudiantes { get; set; }
 
-        public DbSet<MateriaViewModel> Materias { get; set; }
+        public DbSet<MateriaViewModel> Materias  { get; set; }
+
+        public DbSet<CarreraViewModel> Carreras { get; set; }
 
         public DbSet<ProfesorViewModel> Profesores { get; set; }
-        
-        public DbSet<CarrerasViewModel> Carreras { get; set; }
 
         public DbSet<GrupoViewModel> Grupos { get; set; }
+
+        public DbSet<AsignacionGrupoViewModel> AsignacionGrupos { get; set; }
 
     }
 }

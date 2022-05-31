@@ -1,24 +1,25 @@
-﻿using ADSProject.Models;
-using ADSProyect.Data;
+﻿using ADSProject.Data;
+using ADSProject.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ADSProject.Repository
 {
     public class EstudianteRepository : IEstudianteRepository
     {
         //private readonly List<EstudianteViewModel> lstEstudiantes;
+
         private readonly ApplicationDbContext applicationDbContext;
+
         public EstudianteRepository(ApplicationDbContext applicationDbContext)
         {
             /*lstEstudiantes = new List<EstudianteViewModel>
             {
-              new EstudianteViewModel
-              {
-                  idEstudiante=1,nombresEstudiante="Gabriel",apellidosEstudiante="Munguia",
-                  codigoEstudiante="MR19I04001",correoEstudiante="mr19i04001@usonsonate.edu.sv"
-              }
+                new EstudianteViewModel{ idEstudiante = 1, nombresEstudiante = "Juan", apellidosEstudiante = "Perez",
+                    codigoEstudiante = "PG16I0400221", correoEstudiante = "Juan@usonsonate.edu.sv"}
             };*/
             this.applicationDbContext = applicationDbContext;
         }
@@ -27,81 +28,69 @@ namespace ADSProject.Repository
         {
             try
             {
-                /*
-                  if (this.lstEstudiantes.Count > 0)
-                 {
-                     estudianteViewModel.idEstudiante = lstEstudiantes.Last().idEstudiante + 1;
+                /*if(lstEstudiantes.Count > 0)
+                {
+                    estudianteViewModel.idEstudiante = lstEstudiantes.Last().idEstudiante + 1;
+                } else
+                {
+                    estudianteViewModel.idEstudiante = 1;
+                }
+                lstEstudiantes.Add(estudianteViewModel);
+                return estudianteViewModel.idEstudiante;*/
 
-                 }
-                 else
-                 {
-                     estudianteViewModel.idEstudiante = 1;
-                 }
-
-                 lstEstudiantes.Add(estudianteViewModel);
-
-                 return estudianteViewModel.idEstudiante;
-                 */
                 applicationDbContext.Estudiantes.Add(estudianteViewModel);
                 applicationDbContext.SaveChanges();
-                return estudianteViewModel.idEstudiante;
 
+                return estudianteViewModel.idEstudiante;
             }
-            catch (Exception err)
+            catch (Exception)
             {
 
-                return -1;
                 throw;
             }
         }
-
 
         public int actualizarEstudiante(int idEstudiante, EstudianteViewModel estudianteViewModel)
         {
             try
             {
+                //lstEstudiantes[lstEstudiantes.FindIndex(x => x.idEstudiante == idEstudiante)] = estudianteViewModel;
+                var item = applicationDbContext.Estudiantes.SingleOrDefault(x => x.idEstudiante == idEstudiante);
 
-
-                //  lstEstudiantes[lstEstudiantes.FindIndex(x => x.idEstudiante == idEstudiante)] = estudianteViewModel;
-                var item = applicationDbContext.Estudiantes.SingleOrDefault(x => x.idEstudiante == estudianteViewModel.idEstudiante);
-           
+                
                 applicationDbContext.Entry(item).CurrentValues.SetValues(estudianteViewModel);
+
                 applicationDbContext.SaveChanges();
 
                 return estudianteViewModel.idEstudiante;
-                 
             }
             catch (Exception)
             {
-                return -1;
+
                 throw;
             }
         }
-
 
         public bool eliminarEstudiante(int idEstudiante)
         {
             try
             {
-                // this.lstEstudiantes.RemoveAt(lstEstudiantes.FindIndex(x => x.idEstudiante == idEstudiante));
-                 var item = applicationDbContext.Estudiantes.SingleOrDefault(x => x.idEstudiante == idEstudiante);
-                //   applicationDbContext.Remove(item);
-                //  applicationDbContext.SaveChanges();
+                //lstEstudiantes.RemoveAt(lstEstudiantes.FindIndex(x => x.idEstudiante == idEstudiante));
+                var item = applicationDbContext.Estudiantes.SingleOrDefault(x => x.idEstudiante == idEstudiante);
+
+                //Borrar registro por completo
+                //applicationDbContext.Estudiantes.Remove(item);
 
                 item.estado = false;
-
                 applicationDbContext.Attach(item);
 
                 applicationDbContext.Entry(item).Property(x => x.estado).IsModified = true;
-
                 applicationDbContext.SaveChanges();
-
                 return true;
-
             }
             catch (Exception)
             {
-                return false;
+
                 throw;
             }
         }
@@ -110,12 +99,9 @@ namespace ADSProject.Repository
         {
             try
             {
-
                 //var item = lstEstudiantes.Find(x => x.idEstudiante == idEstudiante);
-                var item = applicationDbContext.Estudiantes.SingleOrDefault(x=>x.idEstudiante== idEstudiante);
-
+                var item = applicationDbContext.Estudiantes.SingleOrDefault(x => x.idEstudiante == idEstudiante);
                 return item;
-
             }
             catch (Exception)
             {
@@ -128,11 +114,32 @@ namespace ADSProject.Repository
         {
             try
             {
-                //Obtener todos los estudiantes sin filtros
-               // return applicationDbContext.Estudiantes.ToList();
+                //Obtener todos los estudiantes sin filtro
+                //return applicationDbContext.Estudiantes.ToList();
 
-                //obtener todos los estudiantes que tengan el estado en 1 
+                //Obtener todos los estudiantes sin filtro (estado =1)
                 return applicationDbContext.Estudiantes.Where(x => x.estado == true).ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public List<EstudianteViewModel> obtenerEstudiantes(String[] includes)
+        {
+            try
+            {
+                // Se obtiene el listado de estudiantes donde la propiedad estado sea verdadero. (es decir que esten habilitados)
+                var lst = applicationDbContext.Estudiantes.Where(x => x.estado == true).AsQueryable();
+
+                foreach (var item in includes)
+                {
+                    lst = lst.Include(item);
+                }
+
+                return lst.ToList();
             }
             catch (Exception)
             {

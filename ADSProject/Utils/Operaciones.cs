@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace ADSProject.Utils
 {
     public enum Operaciones
-    { 
-        agregar,modificar,leer , eliminar
+    {
+        agregar, modificar, leer, eliminar
     }
 }

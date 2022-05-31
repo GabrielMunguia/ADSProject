@@ -1,33 +1,35 @@
-﻿using ADSProject.Models;
-using ADSProject.Repository;
+﻿
+using ADSProject.Models;
 using ADSProject.Utils;
+using ADSProject.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace ADSProject.Controllers
 {
     public class ProfesorController : Controller
     {
         private readonly IProfesorRepository profesorRepository;
+        private readonly ILogger<EstudianteController> logger;
 
-
-        public ProfesorController(IProfesorRepository profesorRepository)
+        public ProfesorController(IProfesorRepository profesorRepository, ILogger<EstudianteController> logger)
         {
             this.profesorRepository = profesorRepository;
+            this.logger = logger;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-
             try
             {
-                var item = profesorRepository.obtenerProfesores();
+                var item = profesorRepository.obtenerProfesor();
                 return View(item);
-
             }
             catch (Exception)
             {
@@ -35,21 +37,19 @@ namespace ADSProject.Controllers
                 throw;
             }
         }
-
-
         [HttpGet]
-        public IActionResult Form(int? idProfesor, Operaciones operaciones)
+
+        public IActionResult Form (int? idProfesor, Operaciones operaciones)
         {
             try
             {
-                var materia = new ProfesorViewModel();
-                if (idProfesor.HasValue)
+                var profesor = new ProfesorViewModel();
+                if(idProfesor.HasValue)
                 {
-                    materia = profesorRepository.obtenerProfesorPorId(idProfesor.Value);
+                    profesor = profesorRepository.obtenerProfesorPorID(idProfesor.Value);
                 }
-                //Indica el tipo de operacion que se esta realizando, se manda la data a la vista 
                 ViewData["Operaciones"] = operaciones;
-                return View(materia);
+                return View(profesor);
             }
             catch (Exception)
             {
@@ -58,20 +58,38 @@ namespace ADSProject.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Form(ProfesorViewModel profesorViewModel)
+        [AutoValidateAntiforgeryToken]
+        public IActionResult Form (ProfesorViewModel profesorViewModel)
         {
             try
             {
-                if (profesorViewModel.idProfesor == 0)//En caso de insertar un nuevo estudiante
+                if (ModelState.IsValid)
                 {
-                    profesorRepository.agregarProfesor(profesorViewModel);
-                }
-                else//En caso de actualizar el estudiante
-                {
-                    profesorRepository.actualizarProfesor(profesorViewModel.idProfesor, profesorViewModel);
-                }
+                    int id = 0;
+                    if (profesorViewModel.idProfesor == 0)
+                    {
+                       id = profesorRepository.agregarProfesor(profesorViewModel);
+                    }
+                    else
+                    {
+                       id = profesorRepository.actualizarProfesor(profesorViewModel.idProfesor, profesorViewModel);
+                    }
 
-                return RedirectToAction("Index");
+                    if (id > 0)
+                    {
+                        return StatusCode(StatusCodes.Status200OK);
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status202Accepted);
+                    }
+
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest);
+                }
+                // return RedirectToAction("Index");
             }
             catch (Exception)
             {
@@ -94,10 +112,5 @@ namespace ADSProject.Controllers
 
             return RedirectToAction("Index");
         }
-
-
-
-
     }
-  
-};
+}

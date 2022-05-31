@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace ADSProject.Utils
 {
-    public static  class Constants
+    public static class Constants
     {
         public const string REQUIRED_FIELD = "Este campo es requerido";
-
     }
 }

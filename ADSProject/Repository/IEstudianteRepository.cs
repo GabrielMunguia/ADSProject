@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace ADSProject.Repository
 {
-   public  interface IEstudianteRepository
+    public interface IEstudianteRepository
     {
         List<EstudianteViewModel> obtenerEstudiantes();
+
+        List<EstudianteViewModel> obtenerEstudiantes(String[]includes);
 
         int agregarEstudiante(EstudianteViewModel estudianteViewModel);
 
@@ -17,6 +19,5 @@ namespace ADSProject.Repository
         bool eliminarEstudiante(int idEstudiante);
 
         EstudianteViewModel obtenerEstudiantePorID(int idEstudiante);
-
     }
 }

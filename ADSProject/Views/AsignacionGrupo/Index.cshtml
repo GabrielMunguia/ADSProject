@@ -1,0 +1,48 @@
+﻿@model IEnumerable<ADSProject.Models.AsignacionGrupoViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idAsigacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idGrupo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idEstudiante)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.idAsigacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idGrupo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idEstudiante)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
